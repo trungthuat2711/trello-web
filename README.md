@@ -17,4 +17,3 @@
 * "eslint-plugin-react": "^7.32.2"
 * "eslint-plugin-react-hooks": "^4.6.0"
 * "eslint-plugin-react-refresh": "^0.3.4"
-```
