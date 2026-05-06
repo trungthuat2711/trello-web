@@ -1,13 +1,13 @@
-import Button from '@mui/material/Button'
-import { useColorScheme } from '@mui/material/styles'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import SettingsBrightness from '@mui/icons-material/SettingsBrightness'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
-import Box from '@mui/material/Box'
-import LightModeIcon from '@mui/icons-material/LightMode'
-import DarkModeIcon from '@mui/icons-material/DarkMode'
-import SettingsBrightness from '@mui/icons-material/SettingsBrightness'
+import { useColorScheme } from '@mui/material/styles'
 
 function ModeSelect() {
   const { mode, setMode } = useColorScheme()
@@ -49,11 +49,35 @@ function ModeSelect() {
 
 function App() {
   return (
-    <>
-      <div>thuathayho</div>
-      <hr/>
-      <ModeSelect/>
-    </>
+    <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: 'primary.light',
+        width: '100%',
+        height: (theme) => theme.trello.appBarHeight
+      }}>
+        <ModeSelect/>
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: 'primary.dark',
+        width: '100%',
+        height: (theme) => theme.trello.boardBarHeight
+      }}>
+        Broad Bar
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: 'primary.main',
+        width: '100%',
+        height: (theme) => `calc(100vh - ${theme.trello.appBarHeight} - ${theme.trello.boardBarHeight})`
+      }}>
+        Broad Content
+      </Box>
+    </Container>
   )
 }
 
