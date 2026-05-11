@@ -22,6 +22,7 @@ function Templates() {
   return (
     <Box>
       <Button
+        sx={{ color: 'white' }}
         id="fade-button-templates"
         aria-controls={open ? 'fade-menu-templates' : undefined}
         aria-haspopup="true"

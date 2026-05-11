@@ -33,7 +33,7 @@ function Profiles() {
           aria-expanded={open ? 'true' : undefined}
         >
           <Avatar
-            sx={{ width: 34, height: 34 }}
+            sx={{ width: 36, height: 36 }}
             alt='thuathayho'
             src='https://i.ytimg.com/vi/1lzjx1X6Lt8/mqdefault.jpg'
           />
