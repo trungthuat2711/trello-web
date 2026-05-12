@@ -34,7 +34,6 @@ function BoardBar() {
       gap: 2,
       paddingX: 2,
       overflowX: 'auto',
-      borderBottom: '1px solid white',
       width: '100%',
       height: (theme) => theme.trello.boardBarHeight,
       backgroundColor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2')
