@@ -8,26 +8,33 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 
-function Card({ imgSrc, title = 'Card 01' }) {
+function Card({ card }) {
+  const shouldShowCardActions = () => {
+    return !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
+  }
   return (
     <MuiCard sx={{
       cursor: 'pointer',
       boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
       overflow: 'unset'
     }}>
-      <CardMedia
-        sx={{ height: 140 }}
-        image={imgSrc}
-        title="Abe"
-      />
+      {card?.cover && <CardMedia sx={{ height: 140 }} image={card?.cover}/>}
       <CardContent sx={{ padding: 1.5, '&:last-child': { padding: 1.5 } }}>
-        <Typography>{title}</Typography>
+        <Typography>{card?.title}</Typography>
       </CardContent>
-      <CardActions sx={{ padding: '0 4px 8px 4px' }}>
-        <Button size="small" startIcon={<GroupIcon />}>20</Button>
-        <Button size="small" startIcon={<CommentIcon />}>15</Button>
-        <Button size="small" startIcon={<AttachmentIcon />}>10</Button>
-      </CardActions>
+      { shouldShowCardActions() &&
+        <CardActions sx={{ padding: '0 4px 8px 4px' }}>
+          { !!card?.memberIds?.length &&
+            <Button size="small" startIcon={<GroupIcon />}>{card?.memberIds?.length}</Button>
+          }
+          { !!card?.comments?.length &&
+            <Button size="small" startIcon={<CommentIcon />}>{card?.comments?.length}</Button>
+          }
+          { !!card?.attachments?.length &&
+            <Button size="small" startIcon={<AttachmentIcon />}>{card?.attachments?.length}</Button>
+          }
+        </CardActions>
+      }
     </MuiCard>
   )
 }
