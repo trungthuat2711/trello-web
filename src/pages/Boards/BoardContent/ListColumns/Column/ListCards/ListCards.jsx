@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Card from './Card/Card'
 
-function ListCards() {
+function ListCards({ cards }) {
   return (
     <Box sx={{
       maxHeight: (theme) => `calc(
@@ -24,12 +24,7 @@ function ListCards() {
       overflowX: 'hidden',
       overflowY: 'auto'
     }}>
-      <Card imgSrc={'https://i.ytimg.com/vi/1lzjx1X6Lt8/mqdefault.jpg'} title={'Thầy Giáo Ba'}/>
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+      {cards?.map(card => <Card key={card._id} card={card}/>)}
     </Box>
   )
 }
