@@ -31,5 +31,4 @@ function ListCards({ cards }) {
     </SortableContext>
   )
 }
-
 export default ListCards
