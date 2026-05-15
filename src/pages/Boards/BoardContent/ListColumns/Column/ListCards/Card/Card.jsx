@@ -1,27 +1,30 @@
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import AttachmentIcon from '@mui/icons-material/Attachment'
 import CommentIcon from '@mui/icons-material/Comment'
 import GroupIcon from '@mui/icons-material/Group'
-import Button from '@mui/material/Button'
 import { Card as MuiCard } from '@mui/material'
+import Button from '@mui/material/Button'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 
 function Card({ card }) {
   const shouldShowCardActions = () => {
     return !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
   }
 
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card._id,
     data: { ...card }
   })
   const dndKitCardStyles = {
+    // dùng CSS.Transform.toString(transform) như docs sẽ lỗi stretch
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    opacity: isDragging ? '0.5' : undefined,
+    border: isDragging ? '1px solid #2ecc71' : undefined
   }
 
   return (

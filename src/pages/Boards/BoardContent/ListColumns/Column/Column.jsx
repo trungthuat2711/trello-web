@@ -1,27 +1,26 @@
-import Box from '@mui/material/Box'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import AddCardIcon from '@mui/icons-material/AddCard'
 import Cloud from '@mui/icons-material/Cloud'
+import ContentCopy from '@mui/icons-material/ContentCopy'
 import ContentCut from '@mui/icons-material/ContentCut'
+import ContentPaste from '@mui/icons-material/ContentPaste'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import DragHandleIcon from '@mui/icons-material/DragHandle'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import Tooltip from '@mui/material/Tooltip'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Fade from '@mui/material/Fade'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import ContentCopy from '@mui/icons-material/ContentCopy'
-import ContentPaste from '@mui/icons-material/ContentPaste'
-import AddCardIcon from '@mui/icons-material/AddCard'
-import DragHandleIcon from '@mui/icons-material/DragHandle'
-import Button from '@mui/material/Button'
 import { useEffect, useState } from 'react'
-import ListCards from './ListCards/ListCards'
 import { mapOrder } from '~/utils/sorts'
-import { useSortable, arrayMove } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
+import ListCards from './ListCards/ListCards'
 
 function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -33,31 +32,16 @@ function Column({ column }) {
     setAnchorEl(null)
   }
 
-  // ưu tiên dùng mouse kết hợp touch để mobile không bug
-  //const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
-  const mouseSensor = useSensor(MouseSensor, {
-    // Require the mouse to move by 10 pixels before activating
-    activationConstraint: {
-      distance: 10
-    }
-  })
-  const touchSensor = useSensor(TouchSensor, {
-    // Press delay of 250ms, with tolerance of 5px of movement
-    activationConstraint: {
-      delay: 250,
-      tolerance: 500
-    }
-  })
-  const sensors = useSensors(mouseSensor, touchSensor)
-
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
   })
   const dndKitColumnStyles = {
     // dùng CSS.Transform.toString(transform) như docs sẽ lỗi stretch
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    height: '100%',
+    opacity: isDragging ? '0.5' : undefined
   }
 
   const [orderedCards, setOrderedCards] = useState([])
@@ -65,23 +49,11 @@ function Column({ column }) {
     setOrderedCards(mapOrder(column?.cards, column?.cardOrderIds, '_id'))
   }, [column])
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event
-    if (!over) return
-    if (active.id !== over.id) {
-      const oldIndex = orderedCards.findIndex(card => card._id === active.id)
-      const newIndex = orderedCards.findIndex(card => card._id === over.id)
-      // arrayMove() sắp xếp lại mảng ban đầu dựa vào vị trí cũ và vị trí mới
-      const dndOrderedCards = arrayMove(orderedCards, oldIndex, newIndex)
-      //const dndOrderedCardIds = dndOrderedCards.map(card => card._id) lưu vào db để giữ trạng thái
-      setOrderedCards(dndOrderedCards)
-    }
-  }
-
   return (
-    <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+    //<DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+    <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
       <Box
-        ref={setNodeRef} style={dndKitColumnStyles} {...attributes} {...listeners}
+        {...listeners}
         sx={{
           userSelect: 'none',
           minWidth: '300px',
@@ -178,6 +150,7 @@ function Column({ column }) {
           </Tooltip>
         </Box>
       </Box>
-    </DndContext>
+    </div>
+    //</DndContext>
   )}
 export default Column
